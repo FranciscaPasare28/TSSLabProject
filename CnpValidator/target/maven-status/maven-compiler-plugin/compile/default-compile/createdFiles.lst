@@ -1,0 +1,4 @@
+org\example\validator\CnpValidator.class
+org\example\validator\CnpValidatorEquivalentMutant.class
+org\example\validator\CnpValidatorKilled.class
+org\example\validator\CnpValidatorNotKilled.class

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CnpValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CnpValidator</a> &gt; <a href="index.source.html" class="el_package">org.example.validator</a> &gt; <span class="el_source">CnpValidator.java</span></div><h1>CnpValidator.java</h1><pre class="source lang-java linenums">package org.example.validator;
+
+@SuppressWarnings(&quot;unused&quot;)
+<span class="nc" id="L4">public class CnpValidator {</span>
+
+    @SuppressWarnings(&quot;unused&quot;)
+    public static boolean isValidCnp(String cnp) {
+
+        // R1: CNP nu trebuie să fie null
+<span class="pc bpc" id="L10" title="1 of 2 branches missed.">        if (cnp == null) {</span>
+<span class="nc" id="L11">            return false;</span>
+        }
+
+        // R2: lungime exact 13
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        if (cnp.length() != 13) {</span>
+<span class="fc" id="L16">            return false;</span>
+        }
+
+        // R3: toate caracterele trebuie să fie cifre
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        for (char c : cnp.toCharArray()) {</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">            if (!Character.isDigit(c)) {</span>
+<span class="nc" id="L22">                return false;</span>
+            }
+        }
+
+        // extragere câmpuri: S YY MM DD JJ NNN C
+<span class="fc" id="L27">        int s  = cnp.charAt(0) - '0';</span>
+<span class="fc" id="L28">        int mm = Integer.parseInt(cnp.substring(3, 5));</span>
+<span class="fc" id="L29">        int dd = Integer.parseInt(cnp.substring(5, 7));</span>
+<span class="fc" id="L30">        int jj = Integer.parseInt(cnp.substring(7, 9));</span>
+
+        // R4: S în [1..9] (simplificat)
+<span class="pc bpc" id="L33" title="2 of 4 branches missed.">        if (s &lt; 1 || s &gt; 9) {</span>
+<span class="nc" id="L34">            return false;</span>
+        }
+
+        // R5: MM în [1..12]
+<span class="pc bpc" id="L38" title="2 of 4 branches missed.">        if (mm &lt; 1 || mm &gt; 12) {</span>
+<span class="nc" id="L39">            return false;</span>
+        }
+
+        // R6: DD valid pentru luna MM (simplificat: acceptăm 29 pentru februarie)
+        int maxDay;
+<span class="pc bpc" id="L44" title="3 of 4 branches missed.">        switch (mm) {</span>
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+<span class="fc" id="L46">                maxDay = 31;</span>
+<span class="fc" id="L47">                break;</span>
+            case 4: case 6: case 9: case 11:
+<span class="nc" id="L49">                maxDay = 30;</span>
+<span class="nc" id="L50">                break;</span>
+            case 2:
+<span class="nc" id="L52">                maxDay = 29; // simplificare (fără calcul an bisect)</span>
+<span class="nc" id="L53">                break;</span>
+            default:
+<span class="nc" id="L55">                return false;</span>
+        }
+
+<span class="pc bpc" id="L58" title="2 of 4 branches missed.">        if (dd &lt; 1 || dd &gt; maxDay) {</span>
+<span class="nc" id="L59">            return false;</span>
+        }
+
+        // R7: județ JJ în [01..52] sau 99
+<span class="pc bpc" id="L63" title="4 of 6 branches missed.">        boolean countyOk = (jj &gt;= 1 &amp;&amp; jj &lt;= 52) || (jj == 99);</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (!countyOk) {</span>
+<span class="nc" id="L65">            return false;</span>
+        }
+
+<span class="fc" id="L68">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

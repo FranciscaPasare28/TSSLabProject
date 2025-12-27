@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CnpValidatorKilled.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CnpValidator</a> &gt; <a href="index.source.html" class="el_package">org.example.validator</a> &gt; <span class="el_source">CnpValidatorKilled.java</span></div><h1>CnpValidatorKilled.java</h1><pre class="source lang-java linenums">package org.example.validator;
+
+@SuppressWarnings(&quot;unused&quot;)
+<span class="nc" id="L4">public class CnpValidatorKilled {</span>
+
+    @SuppressWarnings(&quot;unused&quot;)
+    public static boolean isValidCnp(String cnp) {
+
+<span class="nc bnc" id="L9" title="All 2 branches missed.">        if (cnp == null) {</span>
+<span class="nc" id="L10">            return false;</span>
+        }
+
+<span class="nc bnc" id="L13" title="All 2 branches missed.">        if (cnp.length() != 13) {</span>
+<span class="nc" id="L14">            return false;</span>
+        }
+
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        for (char c : cnp.toCharArray()) {</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">            if (!Character.isDigit(c)) {</span>
+<span class="nc" id="L19">                return false;</span>
+            }
+        }
+
+<span class="nc" id="L23">        int s  = cnp.charAt(0) - '0';</span>
+<span class="nc" id="L24">        int mm = Integer.parseInt(cnp.substring(3, 5));</span>
+<span class="nc" id="L25">        int dd = Integer.parseInt(cnp.substring(5, 7));</span>
+<span class="nc" id="L26">        int jj = Integer.parseInt(cnp.substring(7, 9));</span>
+
+<span class="nc bnc" id="L28" title="All 4 branches missed.">        if (s &lt; 1 || s &gt; 9) {</span>
+<span class="nc" id="L29">            return false;</span>
+        }
+
+<span class="nc bnc" id="L32" title="All 4 branches missed.">        if (mm &lt; 1 || mm &gt; 12) {</span>
+<span class="nc" id="L33">            return false;</span>
+        }
+
+        int maxDay;
+<span class="nc bnc" id="L37" title="All 4 branches missed.">        switch (mm) {</span>
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+<span class="nc" id="L39">                maxDay = 31;</span>
+<span class="nc" id="L40">                break;</span>
+            case 4: case 6: case 9: case 11:
+<span class="nc" id="L42">                maxDay = 30;</span>
+<span class="nc" id="L43">                break;</span>
+            case 2:
+<span class="nc" id="L45">                maxDay = 29;</span>
+<span class="nc" id="L46">                break;</span>
+            default:
+<span class="nc" id="L48">                return false;</span>
+        }
+
+<span class="nc bnc" id="L51" title="All 4 branches missed.">        if (dd &lt; 1 || dd &gt; maxDay) {</span>
+<span class="nc" id="L52">            return false;</span>
+        }
+
+        // ❌ MUTANT NE-ECHIVALENT (OMORÂT)
+        // original: (jj &gt;= 1 &amp;&amp; jj &lt;= 52) || (jj == 99)
+<span class="nc bnc" id="L57" title="All 6 branches missed.">        boolean countyOk = (jj &gt;= 1 &amp;&amp; jj &lt;= 52) &amp;&amp; (jj == 99);</span>
+
+<span class="nc" id="L59">        return countyOk;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

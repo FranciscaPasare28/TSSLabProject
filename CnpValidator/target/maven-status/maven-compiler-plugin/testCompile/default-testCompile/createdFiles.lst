@@ -1,0 +1,4 @@
+validator\CnpValidatorCEGTest.class
+validator\CnpValidatorEPTest.class
+validator\CnpValidatorMCDCTest.class
+validator\CnpValidatorBVATest.class
