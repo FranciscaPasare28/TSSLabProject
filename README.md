@@ -111,7 +111,7 @@ Testele sunt implementate în clasa **`CnpValidatorCEGTest`** folosind JUnit.
 
 ## a) Calcularea acoperirii testelor
 
-Pentru a evalua calitatea testelor implementate pentru validatorul de CNP, am utilizat tool-ul de code coverage **JaCoCo**. Fiecare set de teste (EP, BVA și CEG) a fost rulat individual, iar acoperirea codului a fost măsurată separat.
+Pentru a evalua calitatea testelor implementate pentru validatorul de CNP, am utilizat tool-ul de code coverage **`JaCoCo`**. Fiecare set de teste (EP, BVA și CEG) a fost rulat individual, iar acoperirea codului a fost măsurată separat.
 
 ### Rezultatele obținute
 
@@ -144,7 +144,7 @@ Rapoartele de acoperire au fost generate în format HTML și pot fi găsite în 
 - `./CnpValidator/CoverageCalculations/BVA/jacoco/index.html – pentru Boundary Value Analysis`
 - `./CnpValidator/CoverageCalculations/CEG/jacoco/index.html – pentru Cause–Effect Graphing`
 
-b) Concluzii
+## b) Concluzii
 
 Pentru această aplicație, fiind un validator de CNP cu o logică deterministă și relativ simplă, toate cele trei tehnici de testare au oferit o acoperire ridicată a instrucțiunilor din cod.
 
@@ -160,7 +160,7 @@ Se observă însă că setul de teste BVA are valori mai mici pentru Branch Cove
 
 ## a) Transformarea programului intr-un graf orientat
 
-In figura de mai jos este reprezentat graful orientat asociat metodei de validare a CNP-ului. In cadrul acestui graf, nodurile ovale reprezinta punctele de inceput si de terminare ale executiei, iar nodurile de tip romb reprezinta structurile decizionale -`(if)` din program.
+In figura de mai jos este reprezentat graful orientat asociat metodei de validare a CNP-ului. In cadrul acestui graf, nodurile ovale reprezinta punctele de inceput si de terminare ale executiei, iar nodurile de tip romb reprezinta structurile decizionale `(if)` din program.
 
 Fluxul de control incepe cu verificarea daca CNP-ul este null. In cazul in care aceasta conditie este adevarata, metoda returneaza false. Daca nu, executia continua cu verificarea lungimii CNP-ului, care trebuie sa fie exact 13 caractere.
 
@@ -188,8 +188,8 @@ In cazul acestui program (validator CNP), majoritatea verificarilor sunt decizii
 |--------|---------------------------------------------------------------------------|-------------|
 | D1     | C1: `cnp == null`                                                         | simplă      |
 | D2     | C2: `cnp.length() != 13`                                                  | simplă      |
-| D3     | C3: există caracter non-numeric în CNP                                    | simplă      |
-| D4     | C4: S valid **AND** C5: MM valid **AND** C6: DD valid (pentru MM) **AND** C7: JJ valid | compusă     |
+| D3     | C3: `există caracter non-numeric în CNP`                                    | simplă      |
+| D4     | C4: `S valid **AND** C5: MM valid **AND** C6: DD valid (pentru MM) **AND** C7: JJ valid` | compusă     |
 
 
 ## d) Set de teste care satisface criteriul MC/DC
@@ -223,7 +223,7 @@ Demonstratia Independentei Conditiilor:
 
 ## e) Implementarea testelor MC/DC
 
-Fiecare caz de test din tabelul de mai sus este implementat in clasa CnpValidatorMCDCTest folosind JUnit.
+Fiecare caz de test din tabelul de mai sus este implementat in clasa `CnpValidatorMCDCTest` folosind JUnit.
 
 # Cerinta 4: Identificarea unui mutant de ordinul 1 echivalent al programului
 
@@ -256,7 +256,7 @@ Mutatia poate fi incadrata ca o modificare echivalenta de tip LCR (Logical Condi
 ## c) Implementarea Mutantului Echivalent
 
 Implementarea acestui mutant echivalent poate fi consultata in fisierul:
-`- CnpValidatorEquivalentMutant.java`
+`CnpValidatorEquivalentMutant.java`
 
 
 # Cerinta 5: Identificarea mutantilor ne-echivalenti
@@ -312,6 +312,6 @@ Tip mutatie:
 Aceasta modificare este un exemplu de LCR (Logical Condition Removal), deoarece elimina o parte a expresiei logice.
 
 Implementarea mutantului ne-echivalent (neomorat) poate fi consultata in fisierul:
-`- CnpValidatorNotKilled.java`
+`CnpValidatorNotKilled.java`
 
 
