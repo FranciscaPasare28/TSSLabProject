@@ -1,5 +1,5 @@
 # TSS Proiect Laborator — CNP Validator
-**Pasare Roxana-Francisca**
+**Pasare Roxana-Francisca, Software Engineering, grupa 506**
 
 ## Descrierea Proiectului
 Acest proiect implementează un **validator de CNP (Cod Numeric Personal)** care verifică dacă un CNP introdus de utilizator respectă regulile de structură și validitate. Validatorul primește un șir de caractere (`String`) și returnează o valoare booleană care indică dacă CNP-ul este valid sau nu.
@@ -23,7 +23,7 @@ Un CNP este considerat valid dacă îndeplinește următoarele condiții:
    - Ziua nașterii (`DD`) este validă pentru luna respectivă
    - Codul de județ (`JJ`) este între `01` și `52` sau egal cu `99`
 
-> Observație: Validatorul verifică structura și coerența internă a CNP-ului, fără calculul cifrei de control, deoarece scopul proiectului este aplicarea tehnicilor de testare software.
+
 
 ---
 
@@ -126,22 +126,23 @@ Pentru a evalua calitatea testelor implementate pentru validatorul de CNP, am ut
 
 Pentru a calcula acoperirea testelor, am rulat individual fiecare fișier de test folosind comenzile:
 
-mvn --% clean test -Dtest=validator.CnpValidatorEPTest -Djacoco.destFile=target/jacoco-ep.exec
-mvn --% clean test -Dtest=validator.CnpValidatorBVATest -Djacoco.destFile=target/jacoco-bva.exec
-mvn --% clean test -Dtest=validator.CnpValidatorCEGTest -Djacoco.destFile=target/jacoco-ceg.exec
+- `mvn --% clean test -Dtest=validator.CnpValidatorEPTest -Djacoco.destFile=target/jacoco-ep.exec`
+- `mvn --% clean test -Dtest=validator.CnpValidatorBVATest -Djacoco.destFile=target/jacoco-bva.exec`
+- `mvn --% clean test -Dtest=validator.CnpValidatorCEGTest -Djacoco.destFile=target/jacoco-ceg.exec`
+
 
 Aceste comenzi generează fișiere de execuție JaCoCo (.exec) pentru fiecare set de teste. Pentru a genera rapoartele de acoperire, am folosit comenzile:
 
 
-mvn --% jacoco:report -Djacoco.dataFile=target/jacoco-bva.exec
-mvn --% jacoco:report -Djacoco.dataFile="target/jacoco-bva.exec"
-mvn --% jacoco:report -Djacoco.dataFile="target/jacoco-ceg.exec"
+- `mvn --% jacoco:report -Djacoco.dataFile=target/jacoco-bva.exec`
+- `mvn --% jacoco:report -Djacoco.dataFile="target/jacoco-bva.exec`
+- `mvn --% jacoco:report -Djacoco.dataFile="target/jacoco-ceg.exec`
 
 Rapoartele de acoperire au fost generate în format HTML și pot fi găsite în directoarele:
 
-./CnpValidator/CoverageCalculations/EP/jacoco/index.html – pentru Equivalence Partitioning
-./CnpValidator/CoverageCalculations/BVA/jacoco/index.html – pentru Boundary Value Analysis
-./CnpValidator/CoverageCalculations/CEG/jacoco/index.html – pentru Cause–Effect Graphing
+- `./CnpValidator/CoverageCalculations/EP/jacoco/index.html – pentru Equivalence Partitioning`
+- `./CnpValidator/CoverageCalculations/BVA/jacoco/index.html – pentru Boundary Value Analysis`
+- `./CnpValidator/CoverageCalculations/CEG/jacoco/index.html – pentru Cause–Effect Graphing`
 
 b) Concluzii
 
@@ -153,11 +154,13 @@ Se observă însă că setul de teste BVA are valori mai mici pentru Branch Cove
 
 În schimb, testele bazate pe Equivalence Partitioning și Cause–Effect Graphing acoperă mai multe scenarii invalide distincte, conducând la o acoperire mai bună a ramurilor și a complexității codului.
 
-Cerinta 3: Transformarea in Graf Orientat si gasirea unui set de teste care satisface criteriul MC/DC
+---
 
-a) Transformarea programului intr-un graf orientat
+# Cerinta 3: Transformarea in Graf Orientat si gasirea unui set de teste care satisface criteriul MC/DC
 
-In figura de mai jos este reprezentat graful orientat asociat metodei de validare a CNP-ului. In cadrul acestui graf, nodurile ovale reprezinta punctele de inceput si de terminare ale executiei, iar nodurile de tip romb reprezinta structurile decizionale (if) din program.
+## a) Transformarea programului intr-un graf orientat
+
+In figura de mai jos este reprezentat graful orientat asociat metodei de validare a CNP-ului. In cadrul acestui graf, nodurile ovale reprezinta punctele de inceput si de terminare ale executiei, iar nodurile de tip romb reprezinta structurile decizionale -`(if)` din program.
 
 Fluxul de control incepe cu verificarea daca CNP-ul este null. In cazul in care aceasta conditie este adevarata, metoda returneaza false. Daca nu, executia continua cu verificarea lungimii CNP-ului, care trebuie sa fie exact 13 caractere.
 
@@ -173,30 +176,34 @@ Daca oricare dintre aceste conditii esueaza, metoda returneaza false. Doar in ca
 
 ![CNP Control Flow Graph](Diagrama/CnpValidator.png)
 
-b) Ce este criteriul MC/DC?
+## b) Ce este criteriul MC/DC?
 
 Criteriul MC/DC (Modified Condition/Decision Coverage) este o tehnica de testare care asigura ca fiecare conditie dintr-o decizie afecteaza rezultatul deciziei in mod independent. Pentru a satisface acest criteriu, trebuie demonstrat ca schimbarea unei conditii atomice din true in false (sau invers) modifica rezultatul deciziei, in timp ce toate celelalte conditii raman neschimbate.
 
 In cazul acestui program (validator CNP), majoritatea verificarilor sunt decizii simple (atomice) care duc la iesire imediata cu false. Exista insa o decizie compusa naturala in validarea structurii CNP-ului: CNP este considerat valid doar daca toate verificarile structurale sunt simultan adevarate (S valid, MM valid, DD valid pentru MM, JJ valid). Aceasta poate fi privita ca o decizie compusa de tip AND intre mai multe conditii atomice.
 
-c) Identificarea deciziilor si conditiilor atomice
+## c) Identificarea deciziilor si conditiilor atomice
 
-Decizie   Conditii                                                               Tip decizie
-D1       C1: cnp == null                                                          simpla
-D2       C2: cnp.length() != 13                                                   simpla
-D3       C3: exista caracter non-numeric in cnp                                   simpla
-D4       C4: S valid AND C5: MM valid AND C6: DD valid (pentru MM) AND C7: JJ valid  compusa
+| Decizie | Condiții                                                                 | Tip decizie |
+|--------|---------------------------------------------------------------------------|-------------|
+| D1     | C1: `cnp == null`                                                         | simplă      |
+| D2     | C2: `cnp.length() != 13`                                                  | simplă      |
+| D3     | C3: există caracter non-numeric în CNP                                    | simplă      |
+| D4     | C4: S valid **AND** C5: MM valid **AND** C6: DD valid (pentru MM) **AND** C7: JJ valid | compusă     |
 
-d) Set de teste care satisface criteriul MC/DC
+
+## d) Set de teste care satisface criteriul MC/DC
 
 Pentru a satisface criteriul MC/DC pentru decizia compusa D4, am ales un caz de baza (toate conditiile true) si cate un caz in care se modifica doar o singura conditie (devine false), iar celelalte raman true. Astfel demonstram ca fiecare conditie atomica influenteaza independent rezultatul deciziei D4.
 
-Test  C4 (S valid)  C5 (MM valid)  C6 (DD valid)  C7 (JJ valid)  Decizia D4  CNP exemplu
-M1    T             T              T              T              T          1990523450123
-M2    F             T              T              T              F          0990523450123
-M3    T             F              T              T              F          1991323450123
-M4    T             T              F              T              F          1990533450123
-M5    T             T              T              F              F          1990523990123
+| Test | C4 (S valid) | C5 (MM valid) | C6 (DD valid) | C7 (JJ valid) | Decizia D4 | CNP exemplu     |
+|------|--------------|---------------|---------------|---------------|------------|----------------|
+| M1   | T            | T             | T             | T             | T          | 1990523450123  |
+| M2   | F            | T             | T             | T             | F          | 0990523450123  |
+| M3   | T            | F             | T             | T             | F          | 1991323450123  |
+| M4   | T            | T             | F             | T             | F          | 1990533450123  |
+| M5   | T            | T             | T             | F             | F          | 1990523990123  |
+
 
 Explicatie:
 - M1 este cazul de referinta: toate conditiile structurale sunt adevarate, iar D4 este true.
@@ -214,27 +221,29 @@ Demonstratia Independentei Conditiilor:
 - Test M4: doar C6=false => D4=false.
 - Test M5: doar C7=false => D4=false.
 
-e) Implementarea testelor MC/DC
+## e) Implementarea testelor MC/DC
 
 Fiecare caz de test din tabelul de mai sus este implementat in clasa CnpValidatorMCDCTest folosind JUnit.
 
-Cerinta 4: Identificarea unui mutant de ordinul 1 echivalent al programului
+# Cerinta 4: Identificarea unui mutant de ordinul 1 echivalent al programului
 
 Un mutant de ordinul 1 echivalent este o versiune a programului original care a suferit o modificare. In ciuda modificarii, acesta produce aceleasi rezultate pentru toate cazurile de testare posibile. Acest lucru inseamna ca mutantul nu poate fi "ucis" de niciun test, deoarece comportamentul sau ramane identic cu cel al programului original.
 
-a) Mutant Echivalent Identificat
+## a) Mutant Echivalent Identificat
 
 In cadrul validatorului de CNP exista verificarea intervalului pentru codul de judet (JJ). In programul original, conditia este scrisa astfel:
 
+```java
 // Original
 boolean countyOk = (jj >= 1 && jj <= 52) || (jj == 99);
 
-Aceeasi verificare poate fi rescrisa fara modificarea comportamentului astfel:
-
 // Mutant Echivalent
 boolean countyOk = (jj == 99) || (jj >= 1 && jj <= 52);
+```
 
-b) Explicatia Mutantului Echivalent
+
+## b) Explicatia Mutantului Echivalent
+
 
 In acest mutant, am schimbat ordinea operatiilor in expresia logica folosind proprietatea de comutativitate a operatorului OR (||). Din punct de vedere logic, expresia (A || B) este echivalenta cu (B || A), iar evaluarea finala (true/false) va ramane aceeasi pentru orice valori ale variabilei jj.
 
@@ -244,28 +253,31 @@ Pentru orice valoare jj, atat expresia originala cat si cea modificata vor retur
 Tip mutatie:
 Mutatia poate fi incadrata ca o modificare echivalenta de tip LCR (Logical Condition Reordering), deoarece reordoneaza sub-conditiile unei expresii logice fara a altera semantica.
 
-c) Implementarea Mutantului Echivalent
+## c) Implementarea Mutantului Echivalent
 
 Implementarea acestui mutant echivalent poate fi consultata in fisierul:
-CnpValidatorEquivalentMutant.java
+`- CnpValidatorEquivalentMutant.java`
 
 
-Cerinta 5: Identificarea mutantilor ne-echivalenti
+# Cerinta 5: Identificarea mutantilor ne-echivalenti
 
 Un mutant ne-echivalent este o versiune modificata a programului original care produce rezultate diferite pentru cel putin un caz de testare existent. Acesti mutanti pot fi "ucisi" de testele existente, deoarece comportamentul lor difera de cel al programului original.
 
 Pentru a identifica mutantii ne-echivalenti, am ales testul EP8 din setul de Equivalence Partitioning, care foloseste un CNP valid ca input:
 EP8: "1990523450123" si se asteapta ca output-ul sa fie true.
 
-a) Identificarea mutantului ne-echivalent care sa fie omorat de testul EP8
+## a) Identificarea mutantului ne-echivalent care sa fie omorat de testul EP8
 
 Mutantul identificat:
 
+```java
 // Original
 boolean countyOk = (jj >= 1 && jj <= 52) || (jj == 99);
 
 // Mutant Ne-echivalent (omorat)
 boolean countyOk = (jj >= 1 && jj <= 52) && (jj == 99);
+```
+
 
 Explicatia mutantului ne-echivalent:
 In acest mutant, am inlocuit operatorul logic OR (||) cu AND (&&). Aceasta modificare face ca expresia sa fie adevarata doar daca jj este simultan in intervalul 1..52 si egal cu 99, lucru imposibil. Astfel, countyOk devine intotdeauna false, iar metoda va returna false chiar si pentru un CNP valid.
@@ -278,15 +290,18 @@ Aceasta modificare este un exemplu de LOR (Logical Operator Replacement), deoare
 Implementarea mutantului ne-echivalent (omorat) poate fi consultata in fisierul:
 CnpValidatorKilled.java
 
-b) Identificarea mutantului ne-echivalent care sa nu fie omorat de testul EP8
+## b) Identificarea mutantului ne-echivalent care sa nu fie omorat de testul EP8
 
 Mutantul identificat:
 
+```java
 // Original
 boolean countyOk = (jj >= 1 && jj <= 52) || (jj == 99);
 
-// Mutant Ne-echivalent (neomorat)
+// Mutant Ne-echivalent (neomorât)
 boolean countyOk = (jj >= 1 && jj <= 52);
+```
+
 
 Explicatia mutantului ne-echivalent:
 In acest mutant, am eliminat din decizie cazul special jj == 99. Astfel, CNP-urile care au codul de judet 99 ar deveni invalide, desi in implementarea originala sunt acceptate.
@@ -297,6 +312,6 @@ Tip mutatie:
 Aceasta modificare este un exemplu de LCR (Logical Condition Removal), deoarece elimina o parte a expresiei logice.
 
 Implementarea mutantului ne-echivalent (neomorat) poate fi consultata in fisierul:
-CnpValidatorNotKilled.java
+`- CnpValidatorNotKilled.java`
 
 
