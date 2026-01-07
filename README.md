@@ -167,35 +167,28 @@ Pentru a evalua calitatea testelor implementate pentru validatorul de CNP, am ut
 
 ### Comenzi utilizate
 
-Pentru a calcula acoperirea testelor, am rulat individual fiecare fișier de test folosind comenzile:
+Pentru determinarea nivelului de acoperire, fiecare set de teste (EP, BVA și CEG) a fost rulat individual, folosind plugin-ul JaCoCo configurat în proiect.
 
-- `mvn --% clean test -Dtest=validator.CnpValidatorEPTest -Djacoco.destFile=target/jacoco-ep.exec`
-- `mvn --% clean test -Dtest=validator.CnpValidatorBVATest -Djacoco.destFile=target/jacoco-bva.exec`
-- `mvn --% clean test -Dtest=validator.CnpValidatorCEGTest -Djacoco.destFile=target/jacoco-ceg.exec`
+Pentru fiecare suită de teste a fost executată comanda:
 
+- `mvn clean test -Dtest=validator.CnpValidatorEPTest`
+- `mvn clean test -Dtest=validator.CnpValidatorBVATest`
+- `mvn clean test -Dtest=validator.CnpValidatorCEGTest`
 
-Aceste comenzi generează fișiere de execuție JaCoCo (.exec) pentru fiecare set de teste. Pentru a genera rapoartele de acoperire, am folosit comenzile:
+Plugin-ul JaCoCo a generat automat raportul de acoperire în format HTML, utilizând locația implicită:
+- `target/site/jacoco/index.html`
 
+Pentru fiecare rulare, raportul a fost analizat separat, iar valorile de acoperire au fost extrase pentru clasa `CnpValidator` (metoda `isValidCnp`).
 
-- `mvn --% jacoco:report -Djacoco.dataFile=target/jacoco-bva.exec`
-- `mvn --% jacoco:report -Djacoco.dataFile="target/jacoco-bva.exec`
-- `mvn --% jacoco:report -Djacoco.dataFile="target/jacoco-ceg.exec`
-
-Rapoartele de acoperire au fost generate în format HTML și pot fi găsite în directoarele:
-
-- `./CnpValidator/CoverageCalculations/EP/jacoco/index.html – pentru Equivalence Partitioning`
-- `./CnpValidator/CoverageCalculations/BVA/jacoco/index.html – pentru Boundary Value Analysis`
-- `./CnpValidator/CoverageCalculations/CEG/jacoco/index.html – pentru Cause–Effect Graphing`
 
 ## b) Concluzii
 
-Pentru această aplicație, fiind un validator de CNP cu o logică deterministă și relativ simplă, toate cele trei tehnici de testare au oferit o acoperire ridicată a instrucțiunilor din cod.
+Pentru validatorul de CNP, toate cele trei suite (EP, BVA, CEG) obtin o acoperire ridicata, deoarece metoda este determinista si returneaza `true` doar atunci cand toate verificarile sunt parcurse cu succes (null, lungime, numeric, S/MM/DD/JJ). Astfel, un singur test cu CNP valid forteaza executia completa a traseului “happy path”.
 
-Motivul principal pentru această acoperire ridicată este faptul că metoda de validare returnează valoarea true doar în cazul în care toate verificările sunt parcurse cu succes (verificare null, lungime, caractere numerice, structură S/MM/DD/JJ). Astfel, orice test care utilizează un CNP valid determină executarea completă a codului.
+EP si CEG au valori identice in masuratorile obtinute, deoarece ambele contin un caz valid si mai multe cazuri invalide care declanseaza, pe rand, fiecare verificare majora (C1–C7). Practic, cele doua metode ajung sa exercite aceleasi ramuri principale ale codului.
 
-Se observă însă că setul de teste BVA are valori mai mici pentru Branch Coverage și Complexity Coverage. Acest lucru se datorează faptului că testele BVA se concentrează exclusiv pe limitele lungimii CNP-ului (12, 13 și 14 caractere) și nu acoperă suficiente ramuri logice legate de structura internă a CNP-ului (prima cifră, lună, zi, județ).
+BVA are o acoperire usor mai mica la instruction/line coverage. In aceasta suita, multe teste sunt construite pentru valori-limita care duc la iesiri timpurii (return false) inainte de a parcurge toate instructiunile metodei. Totusi, branch coverage ramane la acelasi nivel ca in EP/CEG, ceea ce indica faptul ca ramurile majore (valid/invalid pe fiecare verificare) sunt in continuare atinse.
 
-În schimb, testele bazate pe Equivalence Partitioning și Cause–Effect Graphing acoperă mai multe scenarii invalide distincte, conducând la o acoperire mai bună a ramurilor și a complexității codului.
 
 ---
 
