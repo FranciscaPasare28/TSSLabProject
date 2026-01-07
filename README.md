@@ -147,6 +147,9 @@ Cause–Effect Graphing este utilizată pentru a lega condițiile de intrare (ca
 
 Testele sunt implementate în clasa **`CnpValidatorCEGTest`** folosind JUnit.
 
+![CEG](Diagrama/CEG.png)
+
+
 # Cerința 2: Calcularea acoperirii testelor și comentarea rezultatelor
 
 ## a) Calcularea acoperirii testelor
