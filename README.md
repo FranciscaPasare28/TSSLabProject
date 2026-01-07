@@ -54,8 +54,8 @@ Testele corespunzătoare sunt implementate în clasa **`CnpValidatorEPTest`** fo
 
 Boundary Value Analysis testează valorile de la limitele intervalelor, deoarece acestea sunt punctele unde apar frecvent erori.
 
-### Criteriu testat
-Lungimea CNP-ului trebuie să fie **exact 13 caractere**.
+### Criterii testate
+1. #### Lungimea CNP-ului - lungimea CNP-ului trebuie să fie **exact 13 caractere**.
 
 | Test ID | CNP exemplu       | Lungime | Rezultat |
 |--------|-------------------|---------|----------|
@@ -64,6 +64,46 @@ Lungimea CNP-ului trebuie să fie **exact 13 caractere**.
 | BVA3   | `12345678901234`  | 14      | false    |
 
 Toate celelalte condiții sunt respectate pentru a testa strict limita de lungime.
+
+2. #### Prima cifra - Prima cifră (S)
+
+**Criteriu testat:** S trebuie să fie în intervalul **[1..9]**.
+
+| Test ID | CNP exemplu        | S  | Rezultat |
+|--------|---------------------|----|----------|
+| BVA4   | 0980101220018       | 0  | false    |
+| BVA5   | 9980101220018       | 9  | true     |
+
+3. #### Luna nasterii - MM trebuie să fie în intervalul **[01..12]**.
+
+| Test ID | CNP exemplu        | MM | Rezultat |
+|--------|---------------------|----|----------|
+| BVA6   | 1980001220018       | 00 | false    |
+| BVA7   | 1981231220018       | 12 | true     |
+| BVA8   | 1981301220018       | 13 | false    |
+
+4. #### Ziua nasterii - DD trebuie să fie valid în funcție de lună.
+Au fost testate atât limita minimă, cât și limitele superioare pentru luni cu 30 zile și pentru februarie.
+
+| Test ID | CNP exemplu        | Lună (MM) | Zi (DD) | Rezultat |
+|--------|---------------------|-----------|---------|----------|
+| BVA9   | 1980100220018       | 01        | 00      | false    |
+| BVA10  | 1980131220018       | 01        | 31      | true     |
+| BVA11  | 1980430220018       | 04        | 30      | true     |
+| BVA12  | 1980431220018       | 04        | 31      | false    |
+| BVA13  | 1980229220018       | 02        | 29      | true     |
+| BVA14  | 1980230220018       | 02        | 30      | false    |
+
+**Notă:** În implementarea curentă, februarie permite maxim ziua **29** (nu se aplică regula de an bisect).
+5. #### Cod judet - JJ trebuie să fie în intervalul **[01..52]**, iar valoarea specială **99** este acceptată.
+
+| Test ID | CNP exemplu        | JJ | Rezultat |
+|--------|---------------------|----|----------|
+| BVA15  | 1980101000018       | 00 | false    |
+| BVA16  | 1980101010018       | 01 | true     |
+| BVA17  | 1980101520018       | 52 | true     |
+| BVA18  | 1980101530018       | 53 | false    |
+| BVA19  | 1980101990018       | 99 | true     |
 
 Testele sunt implementate în clasa **`CnpValidatorBVATest`** folosind JUnit.
 
