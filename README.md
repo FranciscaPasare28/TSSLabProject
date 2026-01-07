@@ -65,9 +65,7 @@ Boundary Value Analysis testează valorile de la limitele intervalelor, deoarece
 
 Toate celelalte condiții sunt respectate pentru a testa strict limita de lungime.
 
-2. #### Prima cifra - Prima cifră (S)
-
-**Criteriu testat:** S trebuie să fie în intervalul **[1..9]**.
+2. #### Prima cifră (S) - S trebuie să fie în intervalul **[1..9]**.
 
 | Test ID | CNP exemplu        | S  | Rezultat |
 |--------|---------------------|----|----------|
@@ -83,7 +81,6 @@ Toate celelalte condiții sunt respectate pentru a testa strict limita de lungim
 | BVA8   | 1981301220018       | 13 | false    |
 
 4. #### Ziua nasterii - DD trebuie să fie valid în funcție de lună.
-Au fost testate atât limita minimă, cât și limitele superioare pentru luni cu 30 zile și pentru februarie.
 
 | Test ID | CNP exemplu        | Lună (MM) | Zi (DD) | Rezultat |
 |--------|---------------------|-----------|---------|----------|
@@ -94,7 +91,10 @@ Au fost testate atât limita minimă, cât și limitele superioare pentru luni c
 | BVA13  | 1980229220018       | 02        | 29      | true     |
 | BVA14  | 1980230220018       | 02        | 30      | false    |
 
-**Notă:** În implementarea curentă, februarie permite maxim ziua **29** (nu se aplică regula de an bisect).
+**Note:**
+1. Au fost testate atât limita minimă, cât și limitele superioare pentru luni cu 30 zile și pentru februarie.
+2. În implementarea curentă, februarie permite maxim ziua **29** (nu se aplică regula de an bisect).
+   
 5. #### Cod judet - JJ trebuie să fie în intervalul **[01..52]**, iar valoarea specială **99** este acceptată.
 
 | Test ID | CNP exemplu        | JJ | Rezultat |
